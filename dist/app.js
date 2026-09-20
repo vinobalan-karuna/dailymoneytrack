@@ -7,6 +7,8 @@ const transactions = [
   { id: 4, merchant: "Salary", meta: "Income • HDFC Salary", amount: 75000, icon: "briefcase-business", tone: "income", type: "money-in", time: "19 Sep" },
   { id: 5, merchant: "BigBasket", meta: "Groceries • ICICI Card", amount: -3190, icon: "shopping-basket", tone: "food", type: "money-out", time: "19 Sep" },
   { id: 6, merchant: "Bank interest", meta: "Interest • SBI Savings", amount: 310, icon: "landmark", tone: "income", type: "money-in", time: "19 Sep" },
+  { id: 7, merchant: "Birthday gift for Anu", meta: "Gift purchase • ICICI Card", amount: -2450, icon: "gift", tone: "food", type: "money-out", time: "18 Sep" },
+  { id: 8, merchant: "Support for Amma and Appa", meta: "Family support • HDFC Salary", amount: -8000, icon: "heart-handshake", tone: "income", type: "money-out", time: "15 Sep" },
 ];
 
 const reviewItems = [
@@ -18,6 +20,13 @@ const reviewItems = [
 let currentFilter = "all";
 let reviewDone = 0;
 let balancesHidden = false;
+let currentEntryType = "expense";
+
+const averages = {
+  daily: { amount: "&#8377;1,758", unit: "per day", note: "Based on 20 tracked days in September. Transfers, savings and money lent are excluded." },
+  weekly: { amount: "&#8377;12,306", unit: "per week", note: "Average across the last 8 complete weeks. This week is 6% lower than your usual week." },
+  monthly: { amount: "&#8377;52,760", unit: "per month", note: "Average across the last 6 reconciled months. September is still in progress." },
+};
 
 function icon(name) {
   return `<i data-lucide="${name}"></i>`;
@@ -125,7 +134,17 @@ document.addEventListener("click", (event) => {
 
   const entryType = event.target.closest("[data-entry]");
   if (entryType) {
+    currentEntryType = entryType.dataset.entry;
     document.querySelectorAll("[data-entry]").forEach((button) => button.classList.toggle("active", button === entryType));
+    return;
+  }
+
+  const averageButton = event.target.closest("[data-average]");
+  if (averageButton) {
+    const value = averages[averageButton.dataset.average];
+    document.querySelectorAll("[data-average]").forEach((button) => button.classList.toggle("active", button === averageButton));
+    document.querySelector("#average-title").innerHTML = `${value.amount} <span>${value.unit}</span>`;
+    document.querySelector("#average-note").textContent = value.note;
     return;
   }
 
@@ -150,6 +169,11 @@ document.addEventListener("click", (event) => {
   if (action === "close-sheet") closeSheets();
   if (action === "review") showScreen("review");
   if (action === "reconcile") showScreen("reconcile");
+  if (action === "open-savings") {
+    showScreen("plan");
+    const savingsTab = document.querySelector('[data-plan-tab="savings"]');
+    savingsTab.click();
+  }
   if (action === "confidence") showDetail("Tracking confidence", "82%", [["Account coverage", "90%"], ["Balances matched", "50%"], ["Review complete", "76%"], ["Cash confidence", "55%"]]);
   if (action === "open-income") showDetail("Money in", money.format(86240), [["Salary", money.format(75000)], ["Other income", money.format(11240)], ["Borrowed money", "Shown separately"]]);
   if (action === "open-spending") showDetail("Money out", money.format(52760), [["Essentials", money.format(36120)], ["Flexible", money.format(12640)], ["Fees and interest", money.format(4000)]]);
@@ -158,6 +182,10 @@ document.addEventListener("click", (event) => {
   if (action === "filters") showToast("More filters will appear here");
   if (action === "profile") showScreen("settings");
   if (action === "add-account") showToast("Account setup flow will open here");
+  if (action === "add-saving") showToast("Choose mutual fund, FD, gold scheme or another destination");
+  if (action === "saving-detail") showToast("Savings contribution and current total are kept separately");
+  if (action === "friend-payment") showToast("Repayment recorded against Ravi's pending amount");
+  if (action === "lend-money") { currentEntryType = "lend"; openSheet("quick-add-sheet"); document.querySelector('[data-entry="lend"]').click(); }
   if (["account", "commitment"].includes(action)) showToast("Detailed account view will open here");
   if (action === "cash-check") showToast("Cash balance confirmed at " + money.format(5450));
   if (action === "card-check") showToast("Found: A2B duplicate for " + money.format(860));
@@ -172,7 +200,18 @@ document.addEventListener("click", (event) => {
     const value = Number(document.querySelector("#entry-amount").value);
     if (!value) { showToast("Enter an amount first"); return; }
     const category = document.querySelector("#entry-category").value;
-    transactions.unshift({ id: Date.now(), merchant: document.querySelector("#entry-note").value || category, meta: `${category} • ${document.querySelector("#entry-account").value}`, amount: -value, icon: "receipt-text", tone: "food", type: "money-out", time: "Just now" });
+    const person = document.querySelector("#entry-person").value.trim();
+    const note = document.querySelector("#entry-note").value.trim();
+    const entrySettings = {
+      expense: { type: "money-out", amount: -value, display: null, icon: category === "Gift purchase" ? "gift" : category === "Family support" ? "heart-handshake" : "receipt-text", tone: "food" },
+      income: { type: "money-in", amount: value, display: null, icon: "arrow-down-left", tone: "income" },
+      move: { type: "moves", amount: value, display: "Moved", icon: "arrow-left-right", tone: "move" },
+      save: { type: "moves", amount: value, display: "Saved", icon: "sprout", tone: "income" },
+      lend: { type: "moves", amount: -value, display: "Lent", icon: "hand-coins", tone: "move" },
+    }[currentEntryType];
+    const merchant = note || person || category;
+    const recipient = person ? ` • For ${person}` : "";
+    transactions.unshift({ id: Date.now(), merchant, meta: `${category} • ${document.querySelector("#entry-account").value}${recipient}`, ...entrySettings, time: "Just now" });
     renderTransactions(); closeSheets(); showToast("Transaction added");
   }
 });

@@ -512,3 +512,15 @@ The first prototype should cover one coherent closed loop:
 7. Preview an external summary.
 
 Design should be tested with realistic Indian transaction descriptions, long merchant names, Indian numbering formats, multiple scripts, small Android screens, dynamic text sizing, weak connectivity, and partial data. Only after this loop is understandable should charts, investment depth, family collaboration, or predictive features expand the surface.
+
+## 20. Savings, receivables, gifts, family support, and spending averages
+
+These meanings must remain separate because combining them produces misleading spending totals.
+
+- A mutual-fund, fixed-deposit, recurring-deposit, or gold-scheme contribution is a transfer from cash to a savings or investment destination. The app shows both the current-month contribution and the accumulated destination balance.
+- Money given to a friend with an expectation of repayment creates a receivable. The record shows original amount, received amount, pending amount, expected date, and repayment history. It is cash outflow but not consumption spending.
+- An item bought as a gift is spending with category **Gift purchase** and an optional recipient, occasion, and reimbursement expectation.
+- Money intentionally given to an elder, child, or other family member is **Family support**. It can be one-time or recurring and stores the recipient without requiring contact-book access.
+- Daily, weekly, and monthly spending averages use only true spending. Transfers, savings contributions, borrowed principal, debt principal repayments, and money lent are excluded. Partial periods are labelled and compared only with equivalent periods.
+
+Acceptance requires that every total can be traced to its events, changing an event between gift/lending/support recalculates the affected totals, and a friend repayment reduces the receivable without being treated as ordinary income.

@@ -267,6 +267,25 @@ Done when:
 
 Depends on: stable ledger schema.
 
+### P0.15 Savings destinations and money owed to the user
+
+Deliver:
+
+- Mutual fund, fixed deposit, recurring deposit, gold scheme, and custom savings destinations.
+- Current-period contribution and accumulated balance shown separately.
+- Friend/family receivables with original, received, pending, and expected repayment values.
+- Gift purchase and family support categories with optional recipient and recurrence.
+- Daily, weekly, and monthly spending averages that exclude transfers, savings, borrowing, debt principal, and lending.
+
+Done when:
+
+- Savings and lending reduce available cash without inflating consumption spending.
+- A repayment reduces the linked receivable and is not counted as earned income.
+- Gift and family-support totals remain searchable by recipient and period.
+- Average calculations disclose date coverage and excluded financial meanings.
+
+Depends on: ledger, account setup, summaries, recurring obligations.
+
 ## 4. P1 public-launch workstreams
 
 - Safe-to-spend based on cleared money, reserved obligations, expected essential

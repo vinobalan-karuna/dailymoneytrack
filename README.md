@@ -2,6 +2,12 @@
 
 This folder contains the product-discovery package for an India-focused personal money tracker.
 
+## Interactive prototype
+
+Open the private mobile-first prototype: [Daily Money Track](https://dailymoneytrack-prototype.vinobalank.chatgpt.site)
+
+The prototype includes the home summary, transaction activity, review inbox, debts and subscriptions, accounts, reconciliation, privacy settings, and quick manual entry.
+
 ## Documents
 
 1. [Product brief](INDIA_MONEY_TRACKER_PRODUCT_BRIEF.md) - product principles, personas, financial model, acquisition strategy, user stories, scope, privacy, edge cases, and validation plan.

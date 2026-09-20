@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f6f7f4">
+  <meta name="description" content="Interactive prototype for Daily Money Track, an India-focused personal money tracker.">
+  <title>Daily Money Track</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css?v=3">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="desktop-rail" aria-label="Primary navigation">
+      <div class="brand-mark" aria-label="Daily Money Track">DM</div>
+      <button class="rail-item active" data-screen="home" aria-label="Home" title="Home"><i data-lucide="house"></i></button>
+      <button class="rail-item" data-screen="activity" aria-label="Activity" title="Activity"><i data-lucide="list-filter"></i></button>
+      <button class="rail-item" data-screen="plan" aria-label="Plan" title="Plan"><i data-lucide="calendar-range"></i></button>
+      <button class="rail-item" data-screen="accounts" aria-label="Accounts" title="Accounts"><i data-lucide="landmark"></i></button>
+      <button class="rail-item settings-button" data-screen="settings" aria-label="Settings" title="Settings"><i data-lucide="settings-2"></i></button>
+    </aside>
+
+    <main class="phone-stage">
+      <header class="topbar">
+        <button class="avatar-button" data-action="profile" aria-label="Open profile">VK</button>
+        <div class="topbar-copy">
+          <p id="eyebrow">Sunday, 20 September</p>
+          <h1 id="screen-title">Your money</h1>
+        </div>
+        <button class="icon-button notification-button" data-action="notifications" aria-label="Notifications">
+          <i data-lucide="bell"></i><span class="notification-dot" aria-hidden="true"></span>
+        </button>
+      </header>
+
+      <div class="offline-banner" id="offline-banner" hidden>
+        <i data-lucide="cloud-off"></i>
+        <span>Offline. New entries will sync later.</span>
+      </div>
+
+      <section class="screen active" id="screen-home" data-title="Your money" data-eyebrow="Sunday, 20 September">
+        <div class="period-row">
+          <button class="month-button" data-action="month-menu">
+            September 2026 <i data-lucide="chevron-down"></i>
+          </button>
+          <button class="confidence-button" data-action="confidence">
+            <span class="status-dot warning"></span> 82% tracked
+          </button>
+        </div>
+
+        <section class="balance-panel" aria-labelledby="available-label">
+          <div class="balance-heading">
+            <div>
+              <p id="available-label">Available across accounts</p>
+              <h2>&#8377;1,24,680</h2>
+            </div>
+            <button class="icon-button light" data-action="toggle-balance" aria-label="Hide balances" title="Hide balances"><i data-lucide="eye"></i></button>
+          </div>
+          <p class="balance-note">After &#8377;18,450 reserved for upcoming bills</p>
+          <div class="money-pulse">
+            <button data-action="open-income">
+              <span class="pulse-icon income"><i data-lucide="arrow-down-left"></i></span>
+              <span><small>Money in</small><strong>&#8377;86,240</strong></span>
+            </button>
+            <button data-action="open-spending">
+              <span class="pulse-icon expense"><i data-lucide="arrow-up-right"></i></span>
+              <span><small>Money out</small><strong>&#8377;52,760</strong></span>
+            </button>
+          </div>
+        </section>
+
+        <button class="review-banner" data-action="review">
+          <span class="review-count">3</span>
+          <span><strong>Transactions need a quick check</strong><small>Two possible duplicates and one unknown account</small></span>
+          <i data-lucide="chevron-right"></i>
+        </button>
+
+        <section class="content-section">
+          <div class="section-heading">
+            <div><p class="kicker">TODAY</p><h2>Recent activity</h2></div>
+            <button class="text-button" data-screen="activity">See all</button>
+          </div>
+          <div class="transaction-list compact" id="home-transactions"></div>
+        </section>
+
+        <section class="content-section upcoming-section">
+          <div class="section-heading">
+            <div><p class="kicker">NEXT 7 DAYS</p><h2>Coming up</h2></div>
+            <button class="icon-button" data-screen="plan" aria-label="Open plan"><i data-lucide="arrow-right"></i></button>
+          </div>
+          <div class="commitment-list">
+            <button class="commitment-row" data-action="commitment" data-id="rent">
+              <span class="date-tile"><strong>24</strong><small>SEP</small></span>
+              <span class="row-copy"><strong>House rent</strong><small>Auto reminder, HDFC Bank</small></span>
+              <span class="row-amount">&#8377;16,500</span>
+            </button>
+            <button class="commitment-row" data-action="commitment" data-id="emi">
+              <span class="date-tile"><strong>27</strong><small>SEP</small></span>
+              <span class="row-copy"><strong>Phone EMI</strong><small>4 of 6 instalments</small></span>
+              <span class="row-amount">&#8377;6,240</span>
+            </button>
+          </div>
+        </section>
+      </section>
+
+      <section class="screen" id="screen-activity" data-title="Activity" data-eyebrow="All your money movements">
+        <div class="search-row">
+          <label class="search-box"><i data-lucide="search"></i><input id="activity-search" type="search" placeholder="Search merchant or amount" aria-label="Search transactions"></label>
+          <button class="icon-button filter-button" data-action="filters" aria-label="Filter transactions"><i data-lucide="sliders-horizontal"></i></button>
+        </div>
+        <div class="segmented-control" role="tablist" aria-label="Transaction type">
+          <button class="active" data-filter="all">All</button>
+          <button data-filter="money-in">Money in</button>
+          <button data-filter="money-out">Money out</button>
+          <button data-filter="moves">Moves</button>
+        </div>
+        <div class="day-total"><span>20 September</span><strong>-&#8377;2,720</strong></div>
+        <div class="transaction-list" id="activity-transactions"></div>
+        <div class="day-total"><span>19 September</span><strong>+&#8377;74,810</strong></div>
+        <div class="transaction-list" id="older-transactions"></div>
+      </section>
+
+      <section class="screen" id="screen-plan" data-title="Plan" data-eyebrow="September 2026">
+        <div class="plan-summary">
+          <div><small>Committed this month</small><strong>&#8377;42,940</strong></div>
+          <div><small>Still due</small><strong>&#8377;24,610</strong></div>
+        </div>
+        <div class="segmented-control plan-tabs" role="tablist" aria-label="Plan view">
+          <button class="active" data-plan-tab="upcoming">Upcoming</button>
+          <button data-plan-tab="debts">Debts</button>
+          <button data-plan-tab="subscriptions">Subscriptions</button>
+        </div>
+        <div class="plan-pane active" id="plan-upcoming">
+          <p class="list-label">DUE NEXT</p>
+          <div class="obligation-list">
+            <button class="obligation-row" data-action="commitment"><span class="obligation-icon coral"><i data-lucide="home"></i></span><span class="row-copy"><strong>House rent</strong><small>24 Sep, reminder set</small></span><span class="row-amount">&#8377;16,500</span></button>
+            <button class="obligation-row" data-action="commitment"><span class="obligation-icon blue"><i data-lucide="smartphone"></i></span><span class="row-copy"><strong>Phone EMI</strong><small>27 Sep, 4 of 6</small></span><span class="row-amount">&#8377;6,240</span></button>
+            <button class="obligation-row" data-action="commitment"><span class="obligation-icon yellow"><i data-lucide="zap"></i></span><span class="row-copy"><strong>Electricity</strong><small>29 Sep, expected</small></span><span class="row-amount">~&#8377;1,870</span></button>
+          </div>
+          <p class="list-label">COMPLETED</p>
+          <div class="obligation-list muted-list">
+            <button class="obligation-row"><span class="obligation-icon green"><i data-lucide="check"></i></span><span class="row-copy"><strong>Personal loan EMI</strong><small>Paid 5 Sep from SBI</small></span><span class="row-amount">&#8377;12,330</span></button>
+          </div>
+        </div>
+        <div class="plan-pane" id="plan-debts">
+          <article class="debt-block">
+            <div class="debt-top"><span class="obligation-icon blue"><i data-lucide="landmark"></i></span><div><small>HDFC Personal Loan</small><h3>&#8377;2,48,600 pending</h3></div></div>
+            <div class="progress-track"><span style="width: 42%"></span></div>
+            <div class="debt-meta"><span>&#8377;1,81,400 repaid</span><span>18 EMIs left</span></div>
+          </article>
+          <article class="debt-block">
+            <div class="debt-top"><span class="obligation-icon coral"><i data-lucide="hand-coins"></i></span><div><small>Borrowed from Arun</small><h3>&#8377;15,000 pending</h3></div></div>
+            <div class="progress-track coral-progress"><span style="width: 50%"></span></div>
+            <div class="debt-meta"><span>&#8377;15,000 repaid</span><span>Next: 2 Oct</span></div>
+          </article>
+        </div>
+        <div class="plan-pane" id="plan-subscriptions">
+          <div class="obligation-list">
+            <button class="obligation-row"><span class="obligation-icon dark"><i data-lucide="tv"></i></span><span class="row-copy"><strong>Netflix</strong><small>Monthly, next 3 Oct</small></span><span class="row-amount">&#8377;649</span></button>
+            <button class="obligation-row"><span class="obligation-icon green"><i data-lucide="music-2"></i></span><span class="row-copy"><strong>Spotify</strong><small>Monthly, next 8 Oct</small></span><span class="row-amount">&#8377;119</span></button>
+            <button class="obligation-row"><span class="obligation-icon yellow"><i data-lucide="package"></i></span><span class="row-copy"><strong>Amazon Prime</strong><small>Annual, 12 Feb 2027</small></span><span class="row-amount">&#8377;1,499</span></button>
+          </div>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-accounts" data-title="Accounts" data-eyebrow="6 included in your view">
+        <button class="reconcile-banner" data-action="reconcile">
+          <span><i data-lucide="shield-check"></i></span>
+          <span><strong>September is 82% tracked</strong><small>Check 2 balances to close the month</small></span>
+          <i data-lucide="chevron-right"></i>
+        </button>
+        <p class="list-label">CASH AND BANK</p>
+        <div class="account-list">
+          <button class="account-row" data-action="account"><span class="bank-logo hdfc">H</span><span class="row-copy"><strong>HDFC Salary</strong><small>Updated today, ••2048</small></span><span class="account-balance"><strong>&#8377;82,430</strong><small class="verified"><i data-lucide="check"></i> Matched</small></span></button>
+          <button class="account-row" data-action="account"><span class="bank-logo sbi">S</span><span class="row-copy"><strong>SBI Savings</strong><small>Updated today, ••8812</small></span><span class="account-balance"><strong>&#8377;36,800</strong><small class="verified"><i data-lucide="check"></i> Matched</small></span></button>
+          <button class="account-row" data-action="account"><span class="bank-logo cash"><i data-lucide="wallet"></i></span><span class="row-copy"><strong>Cash wallet</strong><small>Last checked 8 days ago</small></span><span class="account-balance"><strong>&#8377;5,450</strong><small class="attention">Check balance</small></span></button>
+        </div>
+        <p class="list-label">CREDIT AND DEBT</p>
+        <div class="account-list">
+          <button class="account-row" data-action="account"><span class="bank-logo card"><i data-lucide="credit-card"></i></span><span class="row-copy"><strong>ICICI Credit Card</strong><small>Due 4 Oct, ••4310</small></span><span class="account-balance"><strong>-&#8377;18,960</strong><small>&#8377;1.31L available</small></span></button>
+          <button class="account-row" data-action="account"><span class="bank-logo loan"><i data-lucide="landmark"></i></span><span class="row-copy"><strong>HDFC Personal Loan</strong><small>Next EMI 5 Oct</small></span><span class="account-balance"><strong>-&#8377;2,48,600</strong><small>18 EMIs left</small></span></button>
+        </div>
+        <button class="add-account-button" data-action="add-account"><i data-lucide="plus"></i> Add an account</button>
+      </section>
+
+      <section class="screen" id="screen-review" data-title="Review" data-eyebrow="3 items need your decision">
+        <div class="review-progress"><span id="review-progress-bar"></span></div>
+        <p class="review-helper">Confirming these items improves your September tracking confidence.</p>
+        <div id="review-cards"></div>
+        <div class="review-complete" id="review-complete" hidden>
+          <span><i data-lucide="check"></i></span>
+          <h2>You are all caught up</h2>
+          <p>September tracking confidence is now 91%.</p>
+          <button class="primary-button" data-screen="home">Back to home</button>
+        </div>
+      </section>
+
+      <section class="screen" id="screen-reconcile" data-title="Close September" data-eyebrow="Account-by-account check">
+        <div class="close-summary"><strong>2 of 4 balances matched</strong><span>Closing is optional. Nothing will be hidden.</span></div>
+        <div class="reconcile-list">
+          <article class="reconcile-row matched"><span class="bank-logo hdfc">H</span><span class="row-copy"><strong>HDFC Salary</strong><small>App and bank both show &#8377;82,430</small></span><span class="result-icon"><i data-lucide="check"></i></span></article>
+          <article class="reconcile-row matched"><span class="bank-logo sbi">S</span><span class="row-copy"><strong>SBI Savings</strong><small>App and bank both show &#8377;36,800</small></span><span class="result-icon"><i data-lucide="check"></i></span></article>
+          <button class="reconcile-row" data-action="cash-check"><span class="bank-logo cash"><i data-lucide="wallet"></i></span><span class="row-copy"><strong>Cash wallet</strong><small>Expected &#8377;5,450, not recently counted</small></span><span class="fix-label">Check</span></button>
+          <button class="reconcile-row" data-action="card-check"><span class="bank-logo card"><i data-lucide="credit-card"></i></span><span class="row-copy"><strong>ICICI Credit Card</strong><small>&#8377;860 difference from statement</small></span><span class="fix-label">Resolve</span></button>
+        </div>
+        <div class="close-note"><i data-lucide="info"></i><span>Your final summary will clearly list any unresolved differences.</span></div>
+        <button class="primary-button full-width" data-action="close-month">Close with 2 exceptions</button>
+      </section>
+
+      <section class="screen" id="screen-settings" data-title="Settings" data-eyebrow="Privacy and preferences">
+        <div class="settings-group">
+          <p class="list-label">SECURITY</p>
+          <label class="setting-row"><span><strong>Biometric lock</strong><small>Require Face ID or fingerprint</small></span><input class="switch" type="checkbox" checked></label>
+          <label class="setting-row"><span><strong>Hide notification amounts</strong><small>Keep lock-screen details private</small></span><input class="switch" type="checkbox" checked></label>
+        </div>
+        <div class="settings-group">
+          <p class="list-label">DATA SOURCES</p>
+          <button class="setting-row"><span><strong>Financial SMS</strong><small>Connected on this Android phone</small></span><span class="setting-status">On</span></button>
+          <button class="setting-row"><span><strong>Email and statements</strong><small>Import only, no inbox connection</small></span><i data-lucide="chevron-right"></i></button>
+        </div>
+        <div class="settings-group">
+          <p class="list-label">SUMMARIES</p>
+          <label class="setting-row"><span><strong>Weekly email</strong><small>Every Sunday at 7:00 PM</small></span><input class="switch" type="checkbox" checked></label>
+          <label class="setting-row"><span><strong>WhatsApp summary</strong><small>Monthly, minimal details</small></span><input class="switch" type="checkbox"></label>
+        </div>
+      </section>
+
+      <button class="fab" data-action="quick-add" aria-label="Add transaction" title="Add transaction"><i data-lucide="plus"></i></button>
+
+      <nav class="bottom-nav" aria-label="Primary navigation">
+        <button class="active" data-screen="home"><i data-lucide="house"></i><span>Home</span></button>
+        <button data-screen="activity"><i data-lucide="list-filter"></i><span>Activity</span></button>
+        <span class="nav-spacer" aria-hidden="true"></span>
+        <button data-screen="plan"><i data-lucide="calendar-range"></i><span>Plan</span></button>
+        <button data-screen="accounts"><i data-lucide="landmark"></i><span>Accounts</span></button>
+      </nav>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="modal-backdrop" hidden></div>
+  <section class="bottom-sheet" id="quick-add-sheet" role="dialog" aria-modal="true" aria-labelledby="quick-add-title" hidden>
+    <div class="sheet-handle"></div>
+    <div class="sheet-heading"><h2 id="quick-add-title">Add money activity</h2><button class="icon-button" data-action="close-sheet" aria-label="Close"><i data-lucide="x"></i></button></div>
+    <div class="entry-type" role="tablist" aria-label="Entry type">
+      <button class="active" data-entry="expense">Money out</button>
+      <button data-entry="income">Money in</button>
+      <button data-entry="move">Move</button>
+    </div>
+    <label class="amount-field"><span>&#8377;</span><input id="entry-amount" inputmode="decimal" placeholder="0" aria-label="Amount"></label>
+    <div class="form-grid">
+      <label><span>Paid from</span><select id="entry-account"><option>Cash wallet</option><option>HDFC Salary ••2048</option><option>SBI Savings ••8812</option><option>ICICI Credit Card ••4310</option></select></label>
+      <label><span>Category</span><select id="entry-category"><option>Food</option><option>Groceries</option><option>Travel</option><option>Medicine</option><option>Donation</option><option>Shopping</option><option>Other</option></select></label>
+    </div>
+    <label class="note-field"><span>Note</span><input id="entry-note" placeholder="What was this for?"></label>
+    <button class="primary-button full-width" data-action="save-entry">Add transaction</button>
+  </section>
+
+  <section class="bottom-sheet small-sheet" id="detail-sheet" role="dialog" aria-modal="true" aria-labelledby="detail-title" hidden>
+    <div class="sheet-handle"></div>
+    <div class="sheet-heading"><h2 id="detail-title">Details</h2><button class="icon-button" data-action="close-sheet" aria-label="Close"><i data-lucide="x"></i></button></div>
+    <div id="detail-content"></div>
+  </section>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+  <script src="app.js?v=3"></script>
+</body>
+</html>

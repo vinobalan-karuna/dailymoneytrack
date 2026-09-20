@@ -10,7 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@600;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="styles.css?v=3">
+  <link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
   <div class="app-shell">
@@ -77,6 +77,12 @@
           <i data-lucide="chevron-right"></i>
         </button>
 
+        <button class="savings-overview" data-action="open-savings">
+          <span class="savings-icon"><i data-lucide="sprout"></i></span>
+          <span><small>SAVED THIS MONTH</small><strong>&#8377;15,000</strong><em>Mutual fund, fixed deposit and gold scheme</em></span>
+          <i data-lucide="chevron-right"></i>
+        </button>
+
         <section class="content-section">
           <div class="section-heading">
             <div><p class="kicker">TODAY</p><h2>Recent activity</h2></div>
@@ -116,6 +122,15 @@
           <button data-filter="money-out">Money out</button>
           <button data-filter="moves">Moves</button>
         </div>
+        <section class="average-panel" aria-labelledby="average-title">
+          <div class="average-heading"><div><small>SPENDING AVERAGE</small><h2 id="average-title">&#8377;1,758 <span>per day</span></h2></div><span class="average-change"><i data-lucide="arrow-down"></i> 6% lower</span></div>
+          <div class="average-periods" role="tablist" aria-label="Average period">
+            <button class="active" data-average="daily">Daily</button>
+            <button data-average="weekly">Weekly</button>
+            <button data-average="monthly">Monthly</button>
+          </div>
+          <p id="average-note">Based on 20 tracked days in September. Transfers, savings and money lent are excluded.</p>
+        </section>
         <div class="day-total"><span>20 September</span><strong>-&#8377;2,720</strong></div>
         <div class="transaction-list" id="activity-transactions"></div>
         <div class="day-total"><span>19 September</span><strong>+&#8377;74,810</strong></div>
@@ -129,6 +144,7 @@
         </div>
         <div class="segmented-control plan-tabs" role="tablist" aria-label="Plan view">
           <button class="active" data-plan-tab="upcoming">Upcoming</button>
+          <button data-plan-tab="savings">Savings</button>
           <button data-plan-tab="debts">Debts</button>
           <button data-plan-tab="subscriptions">Subscriptions</button>
         </div>
@@ -138,13 +154,29 @@
             <button class="obligation-row" data-action="commitment"><span class="obligation-icon coral"><i data-lucide="home"></i></span><span class="row-copy"><strong>House rent</strong><small>24 Sep, reminder set</small></span><span class="row-amount">&#8377;16,500</span></button>
             <button class="obligation-row" data-action="commitment"><span class="obligation-icon blue"><i data-lucide="smartphone"></i></span><span class="row-copy"><strong>Phone EMI</strong><small>27 Sep, 4 of 6</small></span><span class="row-amount">&#8377;6,240</span></button>
             <button class="obligation-row" data-action="commitment"><span class="obligation-icon yellow"><i data-lucide="zap"></i></span><span class="row-copy"><strong>Electricity</strong><small>29 Sep, expected</small></span><span class="row-amount">~&#8377;1,870</span></button>
+            <button class="obligation-row" data-action="commitment"><span class="obligation-icon green"><i data-lucide="heart-handshake"></i></span><span class="row-copy"><strong>Family support</strong><small>For Amma and Appa, monthly</small></span><span class="row-amount">&#8377;8,000</span></button>
           </div>
           <p class="list-label">COMPLETED</p>
           <div class="obligation-list muted-list">
             <button class="obligation-row"><span class="obligation-icon green"><i data-lucide="check"></i></span><span class="row-copy"><strong>Personal loan EMI</strong><small>Paid 5 Sep from SBI</small></span><span class="row-amount">&#8377;12,330</span></button>
           </div>
         </div>
+        <div class="plan-pane" id="plan-savings">
+          <div class="savings-total">
+            <small>Saved in September</small>
+            <strong>&#8377;15,000</strong>
+            <span>17% of earned income</span>
+          </div>
+          <p class="list-label">WHERE IT IS SAVED</p>
+          <div class="savings-list">
+            <button class="saving-row" data-action="saving-detail"><span class="obligation-icon green"><i data-lucide="chart-no-axes-combined"></i></span><span class="row-copy"><strong>Mutual funds</strong><small>SIP across 2 funds, paid 7 Sep</small></span><span class="saving-value"><strong>&#8377;8,000</strong><small>&#8377;1.86L total</small></span></button>
+            <button class="saving-row" data-action="saving-detail"><span class="obligation-icon blue"><i data-lucide="landmark"></i></span><span class="row-copy"><strong>Fixed deposit</strong><small>HDFC recurring deposit, paid 10 Sep</small></span><span class="saving-value"><strong>&#8377;5,000</strong><small>&#8377;65,000 total</small></span></button>
+            <button class="saving-row" data-action="saving-detail"><span class="obligation-icon yellow"><i data-lucide="gem"></i></span><span class="row-copy"><strong>Gold scheme</strong><small>Monthly jewellery plan, paid 15 Sep</small></span><span class="saving-value"><strong>&#8377;2,000</strong><small>&#8377;18,000 total</small></span></button>
+          </div>
+          <button class="add-account-button" data-action="add-saving"><i data-lucide="plus"></i> Add savings destination</button>
+        </div>
         <div class="plan-pane" id="plan-debts">
+          <p class="list-label">YOU OWE</p>
           <article class="debt-block">
             <div class="debt-top"><span class="obligation-icon blue"><i data-lucide="landmark"></i></span><div><small>HDFC Personal Loan</small><h3>&#8377;2,48,600 pending</h3></div></div>
             <div class="progress-track"><span style="width: 42%"></span></div>
@@ -155,6 +187,14 @@
             <div class="progress-track coral-progress"><span style="width: 50%"></span></div>
             <div class="debt-meta"><span>&#8377;15,000 repaid</span><span>Next: 2 Oct</span></div>
           </article>
+          <p class="list-label">OWED TO YOU</p>
+          <article class="debt-block receivable-block">
+            <div class="debt-top"><span class="obligation-icon green"><i data-lucide="user-round-check"></i></span><div><small>Money lent to Ravi</small><h3>&#8377;8,000 pending</h3></div></div>
+            <div class="progress-track"><span style="width: 33%"></span></div>
+            <div class="debt-meta"><span>&#8377;4,000 received</span><span>Expected: 30 Sep</span></div>
+            <button class="inline-action" data-action="friend-payment">Record repayment</button>
+          </article>
+          <button class="add-account-button" data-action="lend-money"><i data-lucide="plus"></i> Record money lent</button>
         </div>
         <div class="plan-pane" id="plan-subscriptions">
           <div class="obligation-list">
@@ -247,12 +287,15 @@
       <button class="active" data-entry="expense">Money out</button>
       <button data-entry="income">Money in</button>
       <button data-entry="move">Move</button>
+      <button data-entry="save">Save</button>
+      <button data-entry="lend">Lend</button>
     </div>
     <label class="amount-field"><span>&#8377;</span><input id="entry-amount" inputmode="decimal" placeholder="0" aria-label="Amount"></label>
     <div class="form-grid">
       <label><span>Paid from</span><select id="entry-account"><option>Cash wallet</option><option>HDFC Salary ••2048</option><option>SBI Savings ••8812</option><option>ICICI Credit Card ••4310</option></select></label>
-      <label><span>Category</span><select id="entry-category"><option>Food</option><option>Groceries</option><option>Travel</option><option>Medicine</option><option>Donation</option><option>Shopping</option><option>Other</option></select></label>
+      <label><span>Category or destination</span><select id="entry-category"><option>Food</option><option>Groceries</option><option>Travel</option><option>Medicine</option><option>Gift purchase</option><option>Family support</option><option>Donation</option><option>Shopping</option><option>Mutual fund</option><option>Fixed deposit</option><option>Gold scheme</option><option>Other</option></select></label>
     </div>
+    <label class="note-field"><span>Person or recipient</span><input id="entry-person" placeholder="Friend, elder, child or gift recipient"></label>
     <label class="note-field"><span>Note</span><input id="entry-note" placeholder="What was this for?"></label>
     <button class="primary-button full-width" data-action="save-entry">Add transaction</button>
   </section>
@@ -265,6 +308,6 @@
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
-  <script src="app.js?v=3"></script>
+  <script src="app.js?v=4"></script>
 </body>
 </html>

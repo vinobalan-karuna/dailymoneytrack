@@ -6,7 +6,7 @@ This folder contains the product-discovery package for an India-focused personal
 
 Open the private mobile-first prototype: [Daily Money Track](https://dailymoneytrack-prototype.vinobalank.chatgpt.site)
 
-The prototype includes the home summary, transaction activity, review inbox, debts and subscriptions, accounts, reconciliation, privacy settings, and quick manual entry.
+The prototype includes first-time setup, home averages, transaction activity, editable bills and dues, savings destinations, accounts, reconciliation, profile and appearance preferences, and quick manual entry.
 
 ## Documents
 
@@ -15,6 +15,7 @@ The prototype includes the home summary, transaction activity, review inbox, deb
 3. [Scoring specification](SCORING_SPECIFICATION.md) - Tracking Confidence and Money Progress formulas, gates, explanations, and validation cases.
 4. [User journeys and process flows](USER_JOURNEYS_AND_PROCESS_FLOWS.md) - end-to-end real-world flows, recovery paths, acceptance scenarios, traceability, and MVP readiness checks.
 5. [MVP delivery backlog](MVP_DELIVERY_BACKLOG.md) - prioritized workstreams, dependencies, pilot cohort, launch gates, and first-90-day measures.
+6. [Product gap audit](PRODUCT_GAP_AUDIT.md) - strict PM review of onboarding drop-off, accounting edge cases, security risks, and validation gates.
 
 ## Recommended reading order
 

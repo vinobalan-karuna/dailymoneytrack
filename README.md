@@ -1,26 +1,61 @@
-# India Money Tracker Research Pack
+# Daily Money
 
-This folder contains the product-discovery package for an India-focused personal money tracker.
+India-first personal finance control center. This repository holds the product research and an interactive web preview of the Android app: what you can use today, what is coming, where savings sit, and which debt costs the most.
 
-## Interactive prototype
+The preview uses Arun’s sample month (Bengaluru, September 2026). It is demo data, not a live bank connection.
 
-Open the private mobile-first prototype: [Daily Money Track](https://dailymoneytrack-prototype.vinobalank.chatgpt.site)
+## Live preview
 
-The prototype includes first-time setup, home averages, transaction activity, editable bills and dues, savings destinations, accounts, reconciliation, profile and appearance preferences, and quick manual entry.
+[https://vinobalan-karuna.github.io/dailymoneytrack/](https://vinobalan-karuna.github.io/dailymoneytrack/)
 
-## Documents
+GitHub Pages is already publishing the **repository root** of `main` (`Settings → Pages → Deploy from branch → /`). `npm run build` writes the static site to `docs/` and copies `index.html`, `assets/`, and the favicon to the root, so that existing setting keeps serving the app. A `.nojekyll` file is included so GitHub does not drop files that start with an underscore.
 
-1. [Product brief](INDIA_MONEY_TRACKER_PRODUCT_BRIEF.md) - product principles, personas, financial model, acquisition strategy, user stories, scope, privacy, edge cases, and validation plan.
-2. [Competitor and review evidence](COMPETITOR_REVIEW_EVIDENCE.md) - competitor findings, app-review pain points, root causes, opportunity gaps, and interview prompts.
-3. [Scoring specification](SCORING_SPECIFICATION.md) - Tracking Confidence and Money Progress formulas, gates, explanations, and validation cases.
-4. [User journeys and process flows](USER_JOURNEYS_AND_PROCESS_FLOWS.md) - end-to-end real-world flows, recovery paths, acceptance scenarios, traceability, and MVP readiness checks.
-5. [MVP delivery backlog](MVP_DELIVERY_BACKLOG.md) - prioritized workstreams, dependencies, pilot cohort, launch gates, and first-90-day measures.
-6. [Product gap audit](PRODUCT_GAP_AUDIT.md) - strict PM review of onboarding drop-off, accounting edge cases, security risks, and validation gates.
+If the Pages URL is still catching up after a merge, the previous host of this same preview is [https://daily-money-arun-b601.surge.sh](https://daily-money-arun-b601.surge.sh).
 
-## Recommended reading order
+Open the site and choose **See Arun's sample**. Then check:
 
-Start with the product brief, then use the journey document to create the first prototype. The scoring specification should guide calculations and explanations; the evidence document should remain the source for prioritization and research follow-up.
+- Home shows **Available to use ₹1,43,100** (HDFC, SBI, ICICI, and cash, minus bills already reserved).
+- Needs your attention: unknown UPI, transfer to Kiran, possible Swiggy duplicate, Priya’s NEFT, and cash to count.
+- Plan → Debt lists Axis Ace at 42% first (avalanche). Snowball is the alternate. Extra ₹5,000 a month is a straight interest estimate, not advice.
+- Savings shows Emergency, Goal, and Investment labels, and coverage of about **78%**.
+- You → Sources includes dual SIM, banks, cards, Google Pay / PhonePe / BHIM mapped to a bank, cash, and statement import. Turning **HDFC Bank** off hides financial strength.
 
-## Current recommendation
+## Run locally
 
-Build a trustworthy monthly ledger before a broad financial super-app. The first release should prove that mixed Indian money activity can be captured, deduplicated, reviewed, and reconciled across bank, cash, card, debt, and savings contexts. Automation should always expose evidence and uncertainty.
+```bash
+npm install
+npm run dev
+```
+
+Open [http://localhost:5173](http://localhost:5173).
+
+```bash
+npm test
+npm run build
+```
+
+`npm run build` typechecks, refreshes `docs/`, and copies the Pages files to the repository root.
+
+## Where the source lives
+
+The page you see in the browser is built from readable source, not only a minified bundle:
+
+| Path | What it is |
+| --- | --- |
+| `web/index.html` | HTML shell |
+| `web/src/screens/` | Home, Activity, Plan, Savings, You, onboarding |
+| `web/src/index.css` | Colors, phone frame, cards |
+| `web/src/data/sample.json` | Sample ledger |
+| `web/src/lib/finance.ts` | Available balance, coverage, debt order |
+| `docs/` | Static build used by Pages |
+
+## Research documents
+
+1. [Product brief](INDIA_MONEY_TRACKER_PRODUCT_BRIEF.md)
+2. [Competitor and review evidence](COMPETITOR_REVIEW_EVIDENCE.md)
+3. [Scoring specification](SCORING_SPECIFICATION.md)
+4. [User journeys and process flows](USER_JOURNEYS_AND_PROCESS_FLOWS.md)
+5. [MVP delivery backlog](MVP_DELIVERY_BACKLOG.md)
+6. [Product gap audit](PRODUCT_GAP_AUDIT.md)
+
+The earlier static prototype is kept in [legacy-prototype](legacy-prototype/).
